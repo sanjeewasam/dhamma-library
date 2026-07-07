@@ -1,0 +1,5 @@
+[English]
+The source transcript for "කළණ මිතුරු දහම් සාකච්චා 29" is empty (0 bytes), so there is no content to introduce. No summary or introduction can be written without a transcript. If the recording is transcribed into this file later, remove its line from output/progress.log and re-run the batch to produce a proper summary and thumbnail.
+
+[සිංහල]
+"කළණ මිතුරු දහම් සාකච්චා 29" මූලාශ්‍ර පිටපත හිස් ය (බයිට් 0), එබැවින් හඳුන්වා දීමට අන්තර්ගතයක් නැත. පිටපතක් නොමැතිව සාරාංශයක් හෝ හැඳින්වීමක් ලිවිය නොහැක. පසුව මෙම ගොනුවට හඬපටය පිටපත් කළහොත්, output/progress.log වෙතින් එහි පේළිය ඉවත් කර නැවත batch ක්‍රියාත්මක කර නිසි සාරාංශයක් හා තම්බ්නේල් එකක් සාදාගන්න.

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhamma Discussions Library</title>
+<meta name="description" content="A library of recorded dhamma discussions with Sinhala transcripts, bilingual summaries, and detailed English summaries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --card: #ffffff;
+    --ink: #2c2418;
+    --ink-soft: #6b5d48;
+    --saffron: #c47a1f;
+    --saffron-deep: #9a5c10;
+    --saffron-pale: #f5e6cf;
+    --border: #e8ddc9;
+    --radius: 14px;
+    --font-en: "Source Serif 4", Georgia, serif;
+    --font-ui: "Inter", system-ui, sans-serif;
+    --font-si: "Noto Sans Sinhala", "Iskoola Pota", sans-serif;
+    --card-font-size: 18px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-en);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(160deg, #7a4a0e, #c47a1f);
+    color: #fff8ec;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+  }
+  header h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.01em; }
+  header .si { font-family: var(--font-si); font-size: 1.05rem; opacity: 0.92; margin-top: 0.3rem; }
+  header p.tag { font-family: var(--font-ui); font-size: 0.9rem; opacity: 0.85; margin-top: 0.6rem; }
+  nav {
+    background: #fffdf8;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-ui);
+    display: flex; justify-content: center; gap: 1.5rem;
+    padding: 0.7rem 1rem; font-size: 0.9rem;
+  }
+  nav a {
+    color: var(--saffron-deep); text-decoration: none; font-weight: 500;
+    cursor: pointer;
+  }
+  nav a:hover { text-decoration: underline; }
+  nav a.active { color: var(--ink); border-bottom: 2px solid var(--saffron); }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  .page.hidden { display: none; }
+
+  /* Toolbar: search + count */
+  .toolbar {
+    display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+    margin: 0.5rem 0 0.75rem;
+    font-family: var(--font-ui);
+  }
+  .toolbar input[type="search"] {
+    flex: 1; min-width: 220px;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border); border-radius: 999px;
+    font: inherit; font-size: 0.95rem; background: var(--card);
+    outline-color: var(--saffron);
+  }
+  .toolbar .count { color: var(--ink-soft); font-size: 0.85rem; white-space: nowrap; }
+
+  /* Font-size slider */
+  .font-size-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-ui);
+    margin-bottom: 0.75rem;
+  }
+  .font-size-bar .label-small { font-size: 0.72rem; color: var(--ink-soft); font-weight: 600; }
+  .font-size-bar .label-large { font-size: 1.1rem; color: var(--ink-soft); font-weight: 600; }
+  .font-size-bar input[type="range"] {
+    width: 120px; accent-color: var(--saffron);
+  }
+
+  /* Letter index bar */
+  .letter-index {
+    display: flex; flex-wrap: wrap; gap: 0.2rem 0;
+    align-items: baseline;
+    font-family: var(--font-ui); font-size: 0.82rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+  }
+  .letter-index a {
+    display: inline-block; min-width: 1.6em; text-align: center;
+    padding: 0.1rem 0.25rem;
+    color: var(--saffron-deep); text-decoration: none; font-weight: 500;
+    border-radius: 4px;
+  }
+  .letter-index a:hover { background: var(--saffron-pale); }
+  .letter-index a.si-letter { font-family: var(--font-si); font-size: 0.9rem; min-width: 1.8em; }
+  .letter-index .sep {
+    display: inline-block; width: 1px; height: 1em;
+    background: var(--border); margin: 0 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* Letter group headings */
+  .letter-group { margin-top: 1.75rem; }
+  .letter-group > h2 {
+    font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600;
+    color: var(--saffron-deep); text-transform: uppercase; letter-spacing: 0.15em;
+    border-bottom: 2px solid var(--saffron-pale);
+    padding-bottom: 0.3rem; margin-bottom: 1rem;
+  }
+  .letter-group > h2.si-heading {
+    font-family: var(--font-si); text-transform: none;
+    font-size: 1rem; letter-spacing: 0;
+  }
+
+  .section-label {
+    font-family: var(--font-ui); font-size: 0.72rem; font-weight: 600;
+    color: var(--ink-soft); letter-spacing: 0.15em; text-transform: uppercase;
+    margin: 2rem 0 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Recording cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(90, 62, 20, 0.06);
+    font-size: var(--card-font-size);
+  }
+  .card h3 { font-size: 1.15em; font-weight: 600; margin-bottom: 0.75rem; }
+  .card .duration {
+    font-family: var(--font-ui); font-weight: 400; font-size: 0.65em;
+    color: var(--ink-soft); background: var(--saffron-pale);
+    border-radius: 999px; padding: 0.15rem 0.6rem; margin-left: 0.5rem;
+    vertical-align: middle; white-space: nowrap;
+  }
+  .card-body { display: flex; gap: 1.25rem; align-items: flex-start; flex-wrap: wrap; }
+  .card-left { flex: 0 0 250px; min-width: 230px; }
+  .card-left audio { width: 100%; margin-bottom: 0.75rem; }
+  .card-thumbs { flex: 1; min-width: 250px; }
+
+  .thumb { font-size: 1em; color: var(--ink); }
+  .thumb + .thumb { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px dashed var(--border); }
+  .thumb .lang {
+    font-family: var(--font-ui); font-size: 0.6em; font-weight: 600;
+    letter-spacing: 0.1em; color: var(--saffron-deep); display: block; margin-bottom: 0.15rem;
+  }
+  .thumb.si { font-family: var(--font-si); font-size: 0.9em; line-height: 1.75; }
+
+  .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--font-ui); font-size: 0.82rem; font-weight: 500;
+    border: 1px solid var(--saffron); color: var(--saffron-deep);
+    background: #fffdf8; border-radius: 999px;
+    padding: 0.45rem 0.9rem; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn:hover { background: var(--saffron); color: #fff; }
+  .btn .si-label { font-family: var(--font-si); }
+
+  /* ---- Modal ---- */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(44, 32, 12, 0.5);
+    z-index: 1000;
+    justify-content: center; align-items: center;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--card); color: var(--ink);
+    width: min(700px, 92vw); max-height: 80vh;
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(60, 40, 10, 0.35);
+    position: relative;
+  }
+  .modal-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+    background: var(--saffron-pale); padding: 0.9rem 1.4rem;
+    font-family: var(--font-ui);
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius) var(--radius) 0 0;
+    flex-shrink: 0;
+  }
+  .modal-head strong { font-size: 0.95rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .modal-actions { display: flex; gap: 0.4rem; align-items: center; flex-shrink: 0; }
+  .modal-actions button {
+    font-family: var(--font-ui); font-size: 0.78rem; font-weight: 500;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: var(--card); color: var(--ink-soft);
+    padding: 0.35rem 0.65rem; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .modal-actions button:hover { background: var(--saffron-pale); color: var(--saffron-deep); }
+  .modal-close {
+    border: none !important; background: none !important;
+    font-size: 1.4rem !important; cursor: pointer;
+    color: var(--ink-soft) !important; line-height: 1;
+    padding: 0.2rem 0.4rem !important;
+  }
+  .modal-close:hover { color: var(--ink) !important; }
+  .modal-body {
+    padding: 1.4rem 1.6rem 2rem;
+    overflow-y: auto; flex: 1;
+    font-size: var(--card-font-size);
+  }
+  .modal-body.si { font-family: var(--font-si); line-height: 1.9; font-size: calc(var(--card-font-size) * 0.9); }
+  .modal-body h1 { font-size: 1.4em; margin-bottom: 0.8rem; color: var(--saffron-deep); }
+  .modal-body h2 { font-size: 1.1em; margin: 1.2rem 0 0.5rem; color: var(--saffron-deep); }
+  .modal-body h3 { font-size: 1em; margin: 1rem 0 0.4rem; }
+  .modal-body p { margin-bottom: 0.8rem; }
+  .modal-body em { color: var(--ink-soft); }
+  .modal-body ol, .modal-body ul { margin: 0 0 0.8rem 1.4rem; }
+  .modal-body li { margin-bottom: 0.35rem; }
+  .copied-toast {
+    position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+    background: var(--saffron-deep); color: #fff;
+    font-family: var(--font-ui); font-size: 0.82rem; font-weight: 500;
+    padding: 0.45rem 1rem; border-radius: 999px;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .copied-toast.show { opacity: 1; }
+
+  /* About section */
+  .about-content { font-size: 1.05rem; line-height: 1.8; }
+  .about-content h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--saffron-deep); }
+  .about-content p { margin-bottom: 1rem; }
+
+  footer {
+    text-align: center; font-family: var(--font-ui); font-size: 0.8rem;
+    color: var(--ink-soft); padding: 2rem 1rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--saffron-deep); }
+
+  @media (max-width: 560px) {
+    .card-left { flex-basis: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Dhamma Discussions Library</h1>
+  <div class="si">ධර්ම සාකච්ඡා එකතුව</div>
+  <p class="tag">Recorded discussions &middot; Sinhala transcripts &middot; English summaries</p>
+</header>
+
+<nav>
+  <a id="nav-library" class="active" href="#" onclick="showPage('library'); return false;">Library</a>
+  <a id="nav-about" href="#" onclick="showPage('about'); return false;">About</a>
+</nav>
+
+<div id="page-library" class="page">
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search title or summary… (English or සිංහල)" aria-label="Search recordings">
+    <span class="count" id="count"></span>
+  </div>
+  <div class="font-size-bar">
+    <span class="label-small">A</span>
+    <input type="range" id="font-slider" min="14" max="24" value="18" aria-label="Font size">
+    <span class="label-large">A</span>
+  </div>
+  <div id="letter-index" class="letter-index"></div>
+  <div id="list"><p style="font-family:var(--font-ui); color:var(--ink-soft)">Loading library…</p></div>
+</div>
+
+<div id="page-about" class="page hidden">
+  <div class="about-content">
+    <h2>About This Library</h2>
+    <p>[About content will be added here]</p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <strong id="modal-title"></strong>
+      <div class="modal-actions">
+        <button id="modal-copy" title="Copy to clipboard">Copy</button>
+        <button id="modal-download" title="Download as .md">Download</button>
+        <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      </div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="copied-toast" id="copied-toast">Copied!</div>
+  </div>
+</div>
+
+<footer>
+  Sabbadanam dhammadanam jinati — the gift of Dhamma excels all gifts.<br>
+  AI assistants: see <a href="llms.txt">llms.txt</a> and <a href="manifest.json">manifest.json</a> for a machine-readable index of this library.
+</footer>
+
+<script>
+// ---- Page navigation ----
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + name).classList.remove('hidden');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('nav-' + name).classList.add('active');
+}
+
+// ---- Font size slider ----
+document.getElementById('font-slider').addEventListener('input', e => {
+  document.documentElement.style.setProperty('--card-font-size', e.target.value + 'px');
+});
+
+// ---- Minimal markdown renderer ----
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function inline(s) {
+  return s
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+}
+function renderMarkdown(md) {
+  const lines = md.split(/\r?\n/);
+  let html = "", inList = null, para = [];
+  const flushPara = () => {
+    if (para.length) { html += "<p>" + inline(para.join(" ")) + "</p>"; para = []; }
+  };
+  const flushList = () => { if (inList) { html += "</" + inList + ">"; inList = null; } };
+  for (const raw of lines) {
+    const line = esc(raw.trimEnd());
+    const h = line.match(/^(#{1,3})\s+(.*)/);
+    const ol = line.match(/^\d+\.\s+(.*)/);
+    const ul = line.match(/^[-*]\s+(.*)/);
+    if (h) {
+      flushPara(); flushList();
+      html += `<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`;
+    } else if (ol || ul) {
+      flushPara();
+      const want = ol ? "ol" : "ul";
+      if (inList !== want) { flushList(); html += "<" + want + ">"; inList = want; }
+      html += "<li>" + inline((ol || ul)[1]) + "</li>";
+    } else if (line.trim() === "") {
+      flushPara(); flushList();
+    } else {
+      para.push(line.trim());
+    }
+  }
+  flushPara(); flushList();
+  return html;
+}
+
+// ---- Library ----
+let recordings = [];
+const SINHALA_LETTERS = "අ ආ ඇ ඈ ඉ උ එ ඔ ක ග ච ජ ට ඩ ත ද න ප බ ම ය ර ල ව ස හ ළ".split(" ");
+
+function isLatin(ch) { return /[A-Za-z]/.test(ch); }
+
+function sinhalaLetterKey(ch) {
+  const idx = SINHALA_LETTERS.indexOf(ch);
+  return idx >= 0 ? idx : SINHALA_LETTERS.length;
+}
+
+function getGroupLetter(title) {
+  const first = title.charAt(0);
+  if (isLatin(first)) return first.toUpperCase();
+  for (const sl of SINHALA_LETTERS) {
+    if (first === sl) return sl;
+  }
+  return first;
+}
+
+function sortRecordings(items) {
+  const en = items.filter(r => isLatin(r.title.charAt(0)))
+    .sort((a, b) => a.title.localeCompare(b.title, "en"));
+  const si = items.filter(r => !isLatin(r.title.charAt(0)))
+    .sort((a, b) => {
+      const la = getGroupLetter(a.title), lb = getGroupLetter(b.title);
+      const ia = sinhalaLetterKey(la), ib = sinhalaLetterKey(lb);
+      if (ia !== ib) return ia - ib;
+      return a.title.localeCompare(b.title, "si");
+    });
+  return { en, si };
+}
+
+function fmtDuration(s) {
+  if (!s) return "";
+  const m = Math.floor(s / 60), sec = Math.round(s % 60);
+  return m ? `${m} min ${sec} s` : `${sec} s`;
+}
+
+function cardHTML(r) {
+  const dur = r.duration_seconds ? `<span class="duration">${fmtDuration(r.duration_seconds)}</span>` : "";
+  const btnT = r.transcript_si
+    ? `<button class="btn" onclick="openDoc('${r.id}','transcript_si')"><span class="si-label">සිංහල පිටපත</span> &middot; Sinhala Transcript</button>` : "";
+  const btnS = r.summary_en
+    ? `<button class="btn" onclick="openDoc('${r.id}','summary_en')">English Detailed Summary</button>` : "";
+  const thumbEn = r.thumb_en ? `<div class="thumb en"><span class="lang">ENGLISH</span>${esc(r.thumb_en)}</div>` : "";
+  const thumbSi = r.thumb_si ? `<div class="thumb si"><span class="lang">සිංහල</span>${esc(r.thumb_si)}</div>` : "";
+  return `<article class="card" id="rec-${r.id}">
+    <h3>${esc(r.title)}${dur}</h3>
+    <div class="card-body">
+      <div class="card-left">
+        <audio controls preload="none" src="${r.audio}"></audio>
+        <div class="btn-row">${btnT}${btnS}</div>
+      </div>
+      <div class="card-thumbs">${thumbEn}${thumbSi}</div>
+    </div>
+  </article>`;
+}
+
+function buildLetterIndex(enItems, siItems) {
+  const indexEl = document.getElementById("letter-index");
+  let html = "";
+  const enLetters = [...new Set(enItems.map(r => getGroupLetter(r.title)))].sort();
+  const siLetters = [...new Set(siItems.map(r => getGroupLetter(r.title)))]
+    .sort((a, b) => sinhalaLetterKey(a) - sinhalaLetterKey(b));
+
+  for (const l of enLetters) {
+    html += `<a href="#grp-${l}">${l}</a>`;
+  }
+  if (enLetters.length && siLetters.length) {
+    html += `<span class="sep"></span>`;
+  }
+  for (const l of siLetters) {
+    html += `<a class="si-letter" href="#grp-si-${encodeURIComponent(l)}">${l}</a>`;
+  }
+  indexEl.innerHTML = html;
+}
+
+function renderList(items) {
+  const list = document.getElementById("list");
+  if (!items.length) {
+    list.innerHTML = `<p style="font-family:var(--font-ui); color:var(--ink-soft)">No recordings match your search.</p>`;
+    document.getElementById("letter-index").innerHTML = "";
+  } else {
+    const { en, si } = sortRecordings(items);
+    buildLetterIndex(en, si);
+    let html = "";
+    let letter = "";
+
+    if (en.length) {
+      html += `<div class="section-label">English Titles</div>`;
+      for (const r of en) {
+        const first = getGroupLetter(r.title);
+        if (first !== letter) {
+          if (letter) html += "</div>";
+          letter = first;
+          html += `<div class="letter-group"><h2 id="grp-${first}">${first}</h2>`;
+        }
+        html += cardHTML(r);
+      }
+      html += "</div>";
+    }
+
+    if (si.length) {
+      html += `<div class="section-label" style="font-family:var(--font-si)">සිංහල මාතෘකා</div>`;
+      letter = "";
+      for (const r of si) {
+        const first = getGroupLetter(r.title);
+        if (first !== letter) {
+          if (letter) html += "</div>";
+          letter = first;
+          html += `<div class="letter-group"><h2 class="si-heading" id="grp-si-${encodeURIComponent(first)}">${first}</h2>`;
+        }
+        html += cardHTML(r);
+      }
+      html += "</div>";
+    }
+
+    list.innerHTML = html;
+  }
+  document.getElementById("count").textContent =
+    `${items.length} of ${recordings.length} recording${recordings.length === 1 ? "" : "s"}`;
+}
+
+// ---- Modal ----
+let currentDocRaw = "";
+let currentDocFilename = "";
+const backdrop = document.getElementById("modal-backdrop");
+const modal = document.getElementById("modal");
+
+function closeModal() { backdrop.classList.remove("open"); }
+backdrop.addEventListener("click", e => { if (e.target === backdrop) closeModal(); });
+document.getElementById("modal-close").addEventListener("click", closeModal);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+document.getElementById("modal-copy").addEventListener("click", () => {
+  navigator.clipboard.writeText(currentDocRaw).then(() => {
+    const toast = document.getElementById("copied-toast");
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1500);
+  });
+});
+
+document.getElementById("modal-download").addEventListener("click", () => {
+  const blob = new Blob([currentDocRaw], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = currentDocFilename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+async function openDoc(id, kind) {
+  const r = recordings.find(x => x.id === id);
+  if (!r || !r[kind]) return;
+  const resp = await fetch(r[kind]);
+  const md = await resp.text();
+  currentDocRaw = md;
+  const suffix = kind === "transcript_si" ? "-transcript.md" : "-summary.md";
+  currentDocFilename = r.title.replace(/[<>:"/\\|?*]/g, "_") + suffix;
+
+  const body = document.getElementById("modal-body");
+  body.className = "modal-body" + (kind === "transcript_si" ? " si" : "");
+  body.innerHTML = renderMarkdown(md);
+  document.getElementById("modal-title").textContent =
+    r.title + (kind === "transcript_si" ? " — සිංහල පිටපත" : " — Detailed Summary");
+  backdrop.classList.add("open");
+  body.scrollTop = 0;
+}
+
+// ---- Search ----
+document.getElementById("search").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  renderList(!q ? recordings : recordings.filter(r =>
+    r.title.toLowerCase().includes(q) ||
+    (r.thumb_en || "").toLowerCase().includes(q) ||
+    (r.thumb_si || "").includes(q)
+  ));
+});
+
+// ---- Load ----
+fetch("manifest.json")
+  .then(r => r.json())
+  .then(m => { recordings = m.recordings; renderList(recordings); })
+  .catch(() => {
+    document.getElementById("list").innerHTML =
+      `<p style="font-family:var(--font-ui); color:#a33">Could not load manifest.json — run <code>python build.py</code> first.</p>`;
+  });
+</script>
+</body>
+</html>
