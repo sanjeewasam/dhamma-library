@@ -103,7 +103,7 @@ def build():
         entry = {
             "id": safe_id(name),
             "title": title_from_name(name),
-            "audio": f"content/audio/{audio.name}",
+            "audio": f"https://audio.vidyaudapadi.org/{audio.name}",
             "duration_seconds": audio_duration(audio),
             "thumb_en": thumbs["en"],
             "thumb_si": thumbs["si"],
