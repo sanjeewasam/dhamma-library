@@ -25,7 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 CONTENT = ROOT / "content"
-AUDIO_DIR = CONTENT / "audio"
+AUDIO_BASE_URL = "https://audio.vidyaudapadi.org"
 
 SITE_TITLE = "Dhamma Discussions Library"
 SITE_DESCRIPTION = (
@@ -91,20 +91,41 @@ def build():
     recordings = []
     missing = []
 
-    audio_files = [p for p in AUDIO_DIR.iterdir()
-                   if p.suffix.lower() in (".m4a", ".mp4")]
-    for audio in sorted(audio_files, key=lambda p: p.stem.lower()):
-        name = audio.stem
+    # Discover recording names from text folders (audio lives on R2, not in git)
+    names: set[str] = set()
+    for folder in ("thumbnail", "transcript", "summary"):
+        folder_path = CONTENT / folder
+        if folder_path.is_dir():
+            for p in folder_path.iterdir():
+                if p.suffix.lower() in (".txt", ".md"):
+                    names.add(p.stem)
+    # Also check audio dir if it exists (local development)
+    audio_dir = CONTENT / "audio"
+    if audio_dir.is_dir():
+        for p in audio_dir.iterdir():
+            if p.suffix.lower() in (".m4a", ".mp4"):
+                names.add(p.stem)
+
+    for name in sorted(names, key=str.lower):
         thumb_file = find_file("thumbnail", name, (".txt", ".md"))
         thumbs = parse_thumbnail(thumb_file) if thumb_file else {"en": None, "si": None}
         transcript = find_file("transcript", name, (".md", ".txt"))
         summary = find_file("summary", name, (".md", ".txt"))
 
+        # Determine audio extension: check local file first, default to .m4a
+        audio_ext = ".m4a"
+        if audio_dir.is_dir():
+            for ext in (".m4a", ".mp4"):
+                if (audio_dir / f"{name}{ext}").exists():
+                    audio_ext = ext
+                    break
+        audio_path = audio_dir / f"{name}{audio_ext}" if audio_dir.is_dir() else None
+
         entry = {
             "id": safe_id(name),
             "title": title_from_name(name),
-            "audio": f"https://audio.vidyaudapadi.org/{audio.name}",
-            "duration_seconds": audio_duration(audio),
+            "audio": f"{AUDIO_BASE_URL}/{name}{audio_ext}",
+            "duration_seconds": audio_duration(audio_path) if audio_path and audio_path.exists() else None,
             "thumb_en": thumbs["en"],
             "thumb_si": thumbs["si"],
             "transcript_si": f"content/transcript/{transcript.name}" if transcript else None,
