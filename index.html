@@ -235,8 +235,13 @@
 
   /* About section */
   .about-content { font-size: 1.05rem; line-height: 1.8; }
-  .about-content h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--saffron-deep); }
+  .about-content h2 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--saffron-deep); }
+  .about-content h3 { font-size: 1.15rem; font-weight: 600; margin: 1.8rem 0 0.6rem; color: var(--ink); }
   .about-content p { margin-bottom: 1rem; }
+  .about-content ul { margin: 0.5rem 0 1.2rem 1.4rem; }
+  .about-content li { margin-bottom: 0.5rem; }
+  .about-content a { color: var(--saffron-deep); }
+  .about-content a:hover { text-decoration: underline; }
 
   footer {
     text-align: center; font-family: var(--font-ui); font-size: 0.8rem;
@@ -280,7 +285,47 @@
 <div id="page-about" class="page hidden">
   <div class="about-content">
     <h2>About This Library</h2>
-    <p>[About content will be added here]</p>
+
+    <h3>Objective</h3>
+    <p>To make the profound vipassanā-style discussions of the late Mr Lasantha
+    Manohara — and others who participated in them — more accessible to a wider
+    audience.</p>
+
+    <h3>Why This Archive Exists</h3>
+    <p>The original recordings live on YouTube, where they must be streamed online
+    and cannot be easily downloaded. This archive makes the recordings downloadable,
+    and accompanies each one with a full Sinhala transcript and a detailed English
+    summary — so that a person can read and reflect offline, on any device, at their
+    own pace.</p>
+
+    <h3>Source Material</h3>
+    <p>All content is sourced from the following YouTube channels. We are grateful
+    to their creators and maintainers:</p>
+    <ul>
+      <li><a href="https://www.youtube.com/@vidyaudapadi-LasanthaManohara/videos" target="_blank">Vidya Udapadi - විද්‍යා උදපාදි - ලසන්ත මනෝහර</a></li>
+      <li><a href="https://www.youtube.com/@lahirufreebird9868/videos" target="_blank">දහම් විමසුම</a></li>
+      <li><a href="https://www.youtube.com/@NihalKodikara-q1m" target="_blank">ARYA SUNYATHAWAYA | Nihal Kodikara</a></li>
+      <li><a href="https://www.youtube.com/@%E0%B6%9A%E0%B6%B1%E0%B7%8A-%E0%B6%87%E0%B6%AD%E0%B7%8A%E0%B6%AD%E0%B7%9D-%E0%B7%83%E0%B6%AF%E0%B7%8A%E0%B6%B0%E0%B7%8F%E0%B7%80-%E0%B6%B8%E0%B7%94%E0%B6%AF%E0%B6%AD%E0%B7%8A%E0%B7%80%E0%B7%8F" target="_blank">හිතන්නයමක් | සමථං අනුයුඤ‍්ජෙය්‍ය කාලෙන ච විපස‍්සනං</a></li>
+    </ul>
+
+    <h3>Acknowledgements</h3>
+    <ul>
+      <li><strong>Mr Lasantha Manohara</strong> — for his profound reflections and his effort to be a kalyāṇa mitta to many.</li>
+      <li><strong>Those who recorded and shared</strong> — the people who made and maintained the recordings and YouTube channels listed above.</li>
+      <li><strong>Dr Vipula Wanigasekera</strong> — through whom these recordings were discovered, and whose ongoing discussions continue to illuminate what Mr Lasantha pointed to.
+        <a href="https://www.youtube.com/@vipulawanigasekera6264/videos" target="_blank">YouTube channel</a></li>
+    </ul>
+
+    <h3>Tools and Services</h3>
+    <ul>
+      <li><strong>Google AI Studio</strong> — Sinhala transcription (Gemini)</li>
+      <li><strong>Anthropic</strong> — Claude chat, Cowork, and Claude Code for summaries, site design, and development</li>
+      <li><strong>US investors and the public</strong> — whose capital subsidises the AI tools that made this archive possible at near-zero cost</li>
+      <li><strong>Cloudflare</strong> — site and audio hosting (Pages and R2)</li>
+      <li><strong>GitHub</strong> — source repository and deployment pipeline</li>
+      <li><strong>YouTube</strong> — original content hosting</li>
+      <li><strong>4K Video Downloader</strong> — audio extraction from YouTube</li>
+    </ul>
   </div>
 </div>
 
