@@ -1,0 +1,26 @@
+## Sutta referred to
+
+- Not explicitly named. The Pāli phrases "sabbē saṅkhārā aniccā'ti yadā paññāya passati" (when one sees with paññā that all saṅkhāra are anicca) and "aññā'va saññā uppajjati, aññā'va saññā nirujjhati" (one saññā arises, another saññā ceases) are cited. The catusacca (Four Noble Truths) framework is discussed extensively. The term "rūpakāyē adhivacana samphassa" (designation-contact regarding the form-body) is also used.
+
+## Main dhamma points
+
+- When we examine a "chair" through its nāmadhamma components — colour, shape, paṭhavī-quality — none of them individually or collectively contains "chair." This leads to the ordinary understanding of **anicca**: the thing was never found to have arisen.
+- However, this ordinary anicca (seeing that the thing "wasn't there") is **not** the ariya (noble) understanding. It merely produces the conclusion "it doesn't exist" — falling into the **natthī** (non-existence) extreme.
+- The ordinary person's śūnyatā (emptiness) is "the absence of a thing that was thought to exist." **Ariya śūnyatā** is something entirely different and cannot be grasped by viññāṇa — it is accessible only through paññā (yadā paññāya passati).
+- **Aññā'va saññā uppajjati, aññā'va saññā nirujjhati**: what we take as "arising" is one saññā, and what we take as "ceasing" is another saññā. They are two separate recognitions, never occurring in a single moment of understanding. We mistake them for two real events (birth and death) when they are both merely acts of recognition (aṅdunagænīma).
+- Recognition itself is the mirage (marīci). The mirage is not what is recognised but the act of recognising.
+- **Samudaya and nirodha** must be seen together in one insight, not sequentially. If one observes samudaya for a long time and "later" discovers nirodha, that is not catusacca-dassana. The four truths are four facets (pæṭikada) of one single understanding — like four photographs of the same cetiya from different angles.
+- The correct seeing is: from the unoriginated (haṭa nogatta) nature itself, one sees how something appears to be found. This is different from taking an originated thing and concluding it "didn't really originate."
+- The distinction is crucial: the common approach starts from the arisen thing and works backward to "it didn't arise" (two-step process, two separate minds). The correct approach sees the non-arising and the apparent arising simultaneously — saṅkhāra dukkha becomes visible only from this vantage.
+
+## Summary
+
+This discussion addresses a fundamental error in how anicca (impermanence) is typically understood and practised. The teacher begins with the familiar example of a "chair": when one examines its component nāmadhamma — colour, shape, solidity (paṭhavī) — none of them individually or together contain "chair." This leads to the easily grasped conclusion: "there is no chair here." The teacher points out that anyone can arrive at this understanding, and it feels entirely correct. But this is the problem — it is the pṛthagjana (ordinary person's) version of anicca, and it falls directly into the natthī (non-existence) extreme.
+
+The teacher distinguishes two kinds of śūnyatā: the ordinary kind, which says "the thing I thought existed doesn't exist," and ariya śūnyatā, which the Buddha taught and which cannot be reached through viññāṇa at all. True anicca is visible only through paññā — this is the meaning of "sabbē saṅkhārā aniccā'ti yadā paññāya passati."
+
+The discussion then moves to the relationship between samudaya and nirodha within the catusacca (Four Noble Truths). The common assumption is that one observes samudaya (arising/origin) for a period, and then nirodha (cessation) is seen later, perhaps after years of practice. The teacher rejects this as incompatible with the catusacca structure. He uses the analogy of photographing a cetiya from four angles: there is one cetiya, but four photographs. Similarly, dukkha, samudaya, nirodha, and magga are four pæṭikada (facets) of a single understanding that must arise in one moment (ēka kṣaṇayaka piṭiṭana nuvaṇak).
+
+The critical error, as the teacher frames it, is taking an arisen thing and then looking to see that "it didn't arise." This produces two separate mental moments: one that sees arising, and another that concludes non-arising. The Pāli phrase aññā'va saññā uppajjati, aññā'va saññā nirujjhati confirms this — what is taken as "arising" is one saññā, and what is taken as "ceasing" is a different saññā. They are never simultaneous; they are two sequential acts of recognition. And recognition itself (aṅdunagænīma) is the mirage (marīci).
+
+The correct approach reverses the direction: one must see, from within the unoriginated nature itself, how something appears to manifest. It is not "take the arisen, prove it didn't arise." It is seeing the haṭa nogatta svabhāvaya (unoriginated nature) and recognising how, from that very nature, something appears to be found. Only then do samudaya and nirodha collapse into a single seeing, and the catusacca becomes one indivisible insight — like a horse-hair split into seven and pierced with its own tip, that is how subtle the point of contact between samudaya and nirodha is.
