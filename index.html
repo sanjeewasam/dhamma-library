@@ -106,6 +106,46 @@
     vertical-align: middle;
   }
 
+  /* Collapsible Contents index (one title per line) */
+  .contents {
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--card); margin-bottom: 1.25rem;
+    font-family: var(--font-ui);
+  }
+  .contents > summary {
+    cursor: pointer; list-style: none;
+    padding: 0.7rem 1rem; font-size: 0.9rem; font-weight: 600;
+    color: var(--saffron-deep); display: flex; align-items: center; gap: 0.5rem;
+    outline-color: var(--saffron);
+  }
+  .contents > summary::-webkit-details-marker { display: none; }
+  .contents > summary::before {
+    content: "\25B8"; font-size: 0.8em; transition: transform 0.15s;
+  }
+  .contents[open] > summary::before { transform: rotate(90deg); }
+  .contents-list {
+    border-top: 1px solid var(--border);
+    max-height: 60vh; overflow-y: auto;
+    padding: 0.35rem 0;
+  }
+  .contents-list a {
+    display: block; padding: 0.35rem 1rem;
+    color: var(--ink); text-decoration: none;
+    font-size: 0.9rem; line-height: 1.4;
+    border-left: 3px solid transparent;
+  }
+  .contents-list a.si { font-family: var(--font-si); }
+  .contents-list a:hover { background: var(--saffron-pale); border-left-color: var(--saffron); }
+  .contents-list .ci-heading {
+    padding: 0.6rem 1rem 0.25rem; font-weight: 600;
+    color: var(--saffron-deep); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .contents-list .ci-heading.si {
+    font-family: var(--font-si); font-size: 0.95rem;
+    text-transform: none; letter-spacing: 0;
+  }
+
   /* Letter group headings */
   .letter-group { margin-top: 1.75rem; }
   .letter-group > h2 {
@@ -279,6 +319,10 @@
     <span class="label-large">A</span>
   </div>
   <div id="letter-index" class="letter-index"></div>
+  <details id="contents" class="contents">
+    <summary><span id="contents-label">Contents</span></summary>
+    <div id="contents-list" class="contents-list"></div>
+  </details>
   <div id="list"><p style="font-family:var(--font-ui); color:var(--ink-soft)">Loading library…</p></div>
 </div>
 
@@ -481,14 +525,39 @@ function buildLetterIndex(enItems, siItems) {
   indexEl.innerHTML = html;
 }
 
+function buildContents(enItems, siItems) {
+  const el = document.getElementById("contents-list");
+  const label = document.getElementById("contents-label");
+  const total = enItems.length + siItems.length;
+  label.textContent = `\u0d85\u0db1\u0dca\u0dad\u0dbb\u0dca\u0d9c\u0dad\u0dba \u00b7 Contents (${total})`;
+  let html = "";
+  let letter = "";
+  for (const r of enItems) {
+    const first = getGroupLetter(r.title);
+    if (first !== letter) { letter = first; html += `<div class="ci-heading">${first}</div>`; }
+    html += `<a href="#rec-${r.id}">${esc(r.title)}</a>`;
+  }
+  letter = "";
+  for (const r of siItems) {
+    const first = getGroupLetter(r.title);
+    if (first !== letter) { letter = first; html += `<div class="ci-heading si">${first}</div>`; }
+    html += `<a class="si" href="#rec-${r.id}">${esc(r.title)}</a>`;
+  }
+  el.innerHTML = html;
+}
+
 function renderList(items) {
   const list = document.getElementById("list");
+  const contents = document.getElementById("contents");
   if (!items.length) {
     list.innerHTML = `<p style="font-family:var(--font-ui); color:var(--ink-soft)">No recordings match your search.</p>`;
     document.getElementById("letter-index").innerHTML = "";
+    contents.style.display = "none";
   } else {
     const { en, si } = sortRecordings(items);
+    contents.style.display = "";
     buildLetterIndex(en, si);
+    buildContents(en, si);
     let html = "";
     let letter = "";
 
